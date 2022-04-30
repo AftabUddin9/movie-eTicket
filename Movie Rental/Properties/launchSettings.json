@@ -10,8 +10,9 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchBrowser": true,
-      "environmentVariables": {
+        "launchBrowser": true,
+        "launchUrl": "Movies",
+        "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },

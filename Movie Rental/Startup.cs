@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Movie_Rental.Data;
+using Movie_Rental.Data.Services;
 
 namespace Movie_Rental
 {
@@ -23,6 +26,13 @@ namespace Movie_Rental
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+
+			//DbContext configuration
+			services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
+
+			//services configuration
+			services.AddScoped<IActorsService,ActorsService>();
+
 			services.AddControllersWithViews();
 		}
 
@@ -52,6 +62,9 @@ namespace Movie_Rental
 					name: "default",
 					pattern: "{controller=Home}/{action=Index}/{id?}");
 			});
+
+			//seed database
+			AppDbInitializer.Seed(app);
 		}
 	}
 }
